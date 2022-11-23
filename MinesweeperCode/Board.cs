@@ -92,18 +92,104 @@
 
         public void PrintBoard(bool revealAll = false)
         {
-            
+            Console.Write("     ");
+            for (int i = 0; i < colsCount; i++)
+            {
+                Console.Write($"{(i + 1) / 10} ");
+            }
+            Console.WriteLine();
+            Console.Write("     ");
+            for (int i = 0; i < colsCount / 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    if (j == 9)
+                    {
+                        Console.Write($"0 ");
+                    }
+                    else
+                    {
+                        Console.Write($"{j + 1} ");
+                    }
+                }
+            }
+            for (int i = 0; i < colsCount % 10; i++)
+            {
+                Console.Write($"{i + 1} ");
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+
             for (int row = 0; row < rowsCount; row++)
             {
-                for (int col = 0; col < colsCount; col++)
+                for (int col = -1; col <= colsCount; col++)
                 {
-                    if (cells[col, row].isRevealed || revealAll)
+                    if (col == -1)
                     {
-                        if (cells[col, row].isMine)
-                            Console.Write($"X ");
+                        if (row < 9)
+                        {
+                            Console.Write($" 0{row + 1}  ");
+                        }
                         else
                         {
-                            Console.Write($"{cells[col, row].neighbouringMinesCount} ");
+                            Console.Write($" {row + 1}  ");
+                        }
+                    }
+                    else if (col == colsCount)
+                    {
+                        if (row < 9)
+                        {
+                            Console.Write($" 0{row + 1}");
+                        }
+                        else
+                        {
+                            Console.Write($" {row + 1}");
+                        }
+                    }
+                    else if (cells[col, row].isRevealed || revealAll)
+                    {
+                        if (cells[col, row].isMine)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.Write($"X ", Console.ForegroundColor);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else
+                        {
+                            int mineCount = cells[col, row].neighbouringMinesCount;
+                            switch (mineCount)
+                            {
+                                case 0: 
+                                    Console.ForegroundColor = ConsoleColor.Black;
+                                    break;
+                                case 1:
+                                    Console.ForegroundColor = ConsoleColor.Blue;
+                                    break;
+                                case 2:
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    break;
+                                case 3:
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    break;
+                                case 4:
+                                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                                    break;
+                                case 5:
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                                    break;
+                                case 6:
+                                    Console.ForegroundColor = ConsoleColor.Cyan;
+                                    break;
+                                case 7:
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    break;
+                                case 8:
+                                    Console.ForegroundColor = ConsoleColor.Gray;
+                                    break;
+
+                            }
+                            Console.Write($"{cells[col, row].neighbouringMinesCount} ", Console.ForegroundColor);
+                            Console.ForegroundColor = ConsoleColor.White;
                         }
                     }
                     else
@@ -114,6 +200,37 @@
                 }
                 Console.WriteLine();
             }
+
+            Console.WriteLine();
+            Console.Write("     ");
+            for (int i = 0; i < colsCount; i++)
+            {
+                Console.Write($"{(i + 1) / 10} ");
+            }
+            Console.WriteLine();
+            Console.Write("     ");
+            for (int i = 0; i < colsCount / 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    if (j == 9)
+                    {
+                        Console.Write($"0 ");
+                    }
+                    else
+                    {
+                        Console.Write($"{j + 1} ");
+                    }
+                }
+            }
+
+            for (int i = 0; i < colsCount % 10; i++)
+            {
+                Console.Write($"{i + 1} ");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
         }
     }
 }
