@@ -2,10 +2,10 @@
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 Console.WriteLine("Welcome to the pasta minesweeper!!!");
+
 int boardWidth = Game.EnterInteger("Please enter board width:", "board width", 1, 50);
 int boardHeight = Game.EnterInteger("Please enter board height:", "board height", 1, 50);
-
-int minesCount = Game.EnterInteger("Please enter mines count:", "mines count", 0, boardWidth * boardHeight);
+int minesCount = Game.EnterInteger("Please enter mines count:", "mines count", 0, boardWidth * boardHeight - 1);
 
 Board board = new Board(boardHeight, boardWidth, minesCount);
 bool isFirstClick = true;
@@ -64,5 +64,3 @@ while (!gameEnd)
         }
     }
 }
-
-return 0;

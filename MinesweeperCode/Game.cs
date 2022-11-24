@@ -31,12 +31,11 @@
         internal static int EnterCoordinate(Board board, string coordinateName, int dimension)
         {
             bool isValidCoordinate = false;
-            string? coordinateInput = "";
             int coordinate = 0;
             while (!isValidCoordinate)
             {
                 Console.WriteLine($"Enter cell {coordinateName} coordinate: ");
-                coordinateInput = Console.ReadLine();
+                string? coordinateInput = Console.ReadLine();
                 try
                 {
                     coordinate = Convert.ToInt32(coordinateInput);
