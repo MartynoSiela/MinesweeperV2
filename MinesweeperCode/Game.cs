@@ -106,6 +106,28 @@
                 }
             }
         }
+
+        internal static (bool, bool) RevealCell(Board board, int row, int col)
+        {
+            (bool gameEnd, bool win) isEndOfGame = (false, false);
+            if (board.cells[col, row].neighbouringMinesCount == 0)
+            {
+                Game.RevealAllNeighbouringEmptyCells(board, row, col);
+            }
+            else
+            {
+                board.cells[col, row].isRevealed = true;
+                board.revealedCellsCount++;
+            }
+
+            if (board.revealedCellsCount == board.colsCount * board.rowsCount - board.minesCount)
+            {
+                Game.RevealAllMines(board);
+                isEndOfGame.gameEnd = true;
+                isEndOfGame.win = true;
+            }
+            return isEndOfGame;
+        }
     }
 
     internal class Node

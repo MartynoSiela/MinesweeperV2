@@ -7,7 +7,6 @@
         public int colsCount { get; set; }
         public int minesCount { get; set; }
         public int[] minesArray { get; set; }
-
         public int revealedCellsCount { get; set; }
 
         public Board(int sizeRow, int sizeCol, int minesCount)
@@ -22,20 +21,25 @@
             CalculateNeighbouringMines();
         }
 
-        private int[] GenerateMinesArray()
+        internal int[] GenerateMinesArray(int? cellToExclude = null)
         {
             Random random = new Random();
             HashSet<int> randomNumbers = new HashSet<int>();
 
             while (randomNumbers.Count < minesCount)
             {
-                randomNumbers.Add(random.Next(rowsCount * colsCount));
+                int randomNumber = random.Next(rowsCount * colsCount);
+
+                if (randomNumber != cellToExclude)
+                {
+                    randomNumbers.Add(randomNumber);
+                }
             }
 
             return randomNumbers.ToArray();
         }
 
-        private void CreateCells()
+        internal void CreateCells()
         {
             for (int row = 0; row < rowsCount; row++)
             {
@@ -52,7 +56,7 @@
             }
         }
 
-        private void CalculateNeighbouringMines()
+        internal void CalculateNeighbouringMines()
         {
             int[] rowOffsets = { -1, -1, -1, 0, 0, 1, 1, 1 };
             int[] colOffsets = { -1, 0, 1, -1, 1, -1, 0, 1 };
@@ -194,7 +198,9 @@
                     }
                     else
                     {
-                        Console.Write($"_ ");
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.Write($"🭶", Console.ForegroundColor);
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     
                 }

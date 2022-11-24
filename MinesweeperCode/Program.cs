@@ -1,5 +1,6 @@
 ﻿using MinesweeperCode;
 
+Console.OutputEncoding = System.Text.Encoding.UTF8;
 Console.WriteLine("Welcome to the pasta minesweeper!!!");
 int boardWidth = Game.EnterInteger("Please enter board width:", "board width", 1, 50);
 int boardHeight = Game.EnterInteger("Please enter board height:", "board height", 1, 50);
@@ -7,6 +8,7 @@ int boardHeight = Game.EnterInteger("Please enter board height:", "board height"
 int minesCount = Game.EnterInteger("Please enter mines count:", "mines count", 0, boardWidth * boardHeight);
 
 Board board = new Board(boardHeight, boardWidth, minesCount);
+bool isFirstClick = true;
 bool gameEnd = false;
 bool win = false;
 board.PrintBoard();
@@ -28,28 +30,25 @@ while (!gameEnd)
 
     if (board.cells[col, row].isMine == false)
     {
-        if (board.cells[col, row].neighbouringMinesCount == 0)
+        (gameEnd, win) = Game.RevealCell(board, row, col);
+        isFirstClick = false;
+    }
+    else
+    {
+        if (isFirstClick)
         {
-            Game.RevealAllNeighbouringEmptyCells(board, row, col);
+            board.minesArray = board.GenerateMinesArray(row * board.colsCount + col);
+            board.CreateCells();
+            board.CalculateNeighbouringMines();
+            (gameEnd, win) = Game.RevealCell(board, row, col);
+            isFirstClick = false;
         } 
         else
         {
             board.cells[col, row].isRevealed = true;
-            board.revealedCellsCount++;
-        }
-
-        if (board.revealedCellsCount == board.colsCount * board.rowsCount - board.minesCount)
-        {
             Game.RevealAllMines(board);
             gameEnd = true;
-            win = true;
         }
-    }
-    else
-    {
-        board.cells[col, row].isRevealed = true;
-        Game.RevealAllMines(board);
-        gameEnd = true;
     }
 
     board.PrintBoard(false);
@@ -61,7 +60,7 @@ while (!gameEnd)
         }
         else
         {
-            Console.WriteLine("You fucked up :(, gg...");
+            Console.WriteLine("You messed up :(, gg...");
         }
     }
 }
